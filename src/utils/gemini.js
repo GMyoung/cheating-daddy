@@ -206,16 +206,16 @@ function hasGroqKey() {
     return key && key.trim() != ''
 }
 
-function trimConversationHistoryForGemma(history, maxChars=42000) {
-    if(!history || history.length === 0) return [];
+function trimConversationHistoryForGemma(history, maxChars = 42000) {
+    if (!history || history.length === 0) return [];
     let totalChars = 0;
     const trimmed = [];
 
-    for(let i = history.length - 1; i >= 0; i--) {
+    for (let i = history.length - 1; i >= 0; i--) {
         const turn = history[i];
         const turnChars = (turn.content || '').length;
 
-        if(totalChars + turnChars > maxChars) break;
+        if (totalChars + turnChars > maxChars) break;
         totalChars += turnChars;
         trimmed.unshift(turn);
     }
@@ -374,7 +374,17 @@ async function sendToGemma(transcription) {
             parts: [{ text: msg.content }]
         }));
 
-        const systemPrompt = currentSystemPrompt || 'You are a helpful assistant.';
+        const baseSystemPrompt = currentSystemPrompt || 'You are a helpful assistant.';
+
+        const brevityRule = `
+            MANDATORY OUTPUT FORMAT:
+            - If the question is multiple-choice, output ONLY the selected option letter(s) or number(s) first (e.g., "B" or "A, C" or "2, 4").
+            - Immediately after, add a very short explanation (<= 1 sentence per option).
+            - Total output: at most 3 sentences OR at most 3 one-line bullets.
+            - No filler, no preamble.
+            `.trim();
+
+        const systemPrompt = `${baseSystemPrompt}\n\n${brevityRule}`;
         const messagesWithSystem = [
             { role: 'user', parts: [{ text: systemPrompt }] },
             { role: 'model', parts: [{ text: 'Understood. I will follow these instructions.' }] },
