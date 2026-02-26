@@ -128,3 +128,38 @@ When implementing transcription features borrow the following rules from
 There are placeholder files for future LLM integration (e.g. Qwen models via
 `llama.cpp`). Continue development after the core transcription pipeline is
 stable and ensure tests cover this new functionality.
+
+## Cursor Cloud specific instructions
+
+### Service overview
+
+This is a single Electron app (no separate backend services). Run it with
+`npm start` (which calls `electron-forge start`). The app requires a display
+(the Cloud VM provides one at `DISPLAY=:1`).
+
+### Running the app
+
+- `npm start` launches the Electron Forge dev server + Electron window.
+- On first launch the app shows an onboarding flow (welcome → add context →
+  main UI). Config is persisted in `~/.config/cheating-daddy-config/`.
+- D-Bus and GPU-process warnings in the console are expected in the headless VM
+  and do not affect functionality.
+
+### Lint / test / build
+
+| Check | Command | Notes |
+|-------|---------|-------|
+| Lint | `npm run lint` | Stub — prints "No linting configured" |
+| Format | `npx prettier --write .` | Uses `.prettierrc` settings |
+| Package | `npm run package` | Electron Forge package for linux/x64 |
+| Test | *(none yet)* | No automated test suite; verify manually |
+
+### Gotchas
+
+- **No automated tests** — the project has no test suite. Validate changes by
+  running the app (`npm start`) and visually confirming the UI.
+- **AI features need API keys** — starting an AI session requires a Gemini API
+  key (BYOK mode), a cloud invite code, or a local Ollama server. Without
+  credentials the UI loads but sessions cannot start.
+- **Packaging cleans `out/`** — `npm run package` wipes the `out/` directory;
+  don't store anything there.
