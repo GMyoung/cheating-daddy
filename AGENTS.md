@@ -128,3 +128,39 @@ When implementing transcription features borrow the following rules from
 There are placeholder files for future LLM integration (e.g. Qwen models via
 `llama.cpp`). Continue development after the core transcription pipeline is
 stable and ensure tests cover this new functionality.
+
+## Cursor Cloud specific instructions
+
+### Services
+
+| Service | How to run | Notes |
+|---|---|---|
+| Electron app | `npm start` | Single service; requires `DISPLAY` (Xvfb at `:1` is pre-configured on the VM) |
+
+### Running the app
+
+The app launches via Electron Forge (`npm start`). On the Cloud VM the display
+server is already available at `DISPLAY=:1`. GPU-related and D-Bus errors in the
+console are harmless — Electron falls back to software rendering.
+
+No API keys are needed to **launch and navigate** the UI. Keys (Gemini, Groq, or
+a cloud invite code) are only required to start an actual AI session.
+
+### Linting / formatting
+
+- `npm run lint` — currently a no-op (`echo "No linting configured"`).
+- `npx prettier --check .` — validates code style (see `.prettierrc`).
+- `npx prettier --write .` — auto-formats before committing.
+
+### Tests
+
+No automated test suite exists yet. Verify changes by running `npm install &&
+npm start` and confirming the app opens and navigates correctly.
+
+### Gotchas
+
+- `package-lock.json` is present; always use **npm** (not yarn/pnpm).
+- Config data is stored in `~/.config/cheating-daddy-config/` on Linux. The app
+  resets this directory on first launch or version mismatch.
+- Electron v30 on this VM uses SwiftShader (software GL). Rendering is slow but
+  functional; expect `viz_main_impl.cc` GPU-process errors in logs.
