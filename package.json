@@ -1,8 +1,8 @@
 {
-    "name": "cheating-daddy",
-    "productName": "cheating-daddy",
+    "name": "salecoach-andy-demo",
+    "productName": "SaleCoach Andy Demo",
     "version": "0.7.0",
-    "description": "cheating daddy",
+    "description": "SaleCoach Andy Demo - AI-powered real-time assistant",
     "main": "src/index.js",
     "scripts": {
         "start": "electron-forge start",
@@ -12,11 +12,11 @@
         "lint": "echo \"No linting configured\""
     },
     "keywords": [
-        "cheating daddy",
-        "cheating daddy ai",
-        "cheating daddy ai assistant",
-        "cheating daddy ai assistant for interviews",
-        "cheating daddy ai assistant for interviews"
+        "sales conversation coach",
+        "sales ai assistant",
+        "conversation coach",
+        "sales training ai",
+        "real-time sales assistant"
     ],
     "author": {
         "name": "sohzm",

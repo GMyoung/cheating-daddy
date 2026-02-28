@@ -1,8 +1,8 @@
 # Repo Guidelines
 
-This repository is a fork of [`cheating-daddy`](https://github.com/sohzm/cheating-daddy).
-It provides an Electron-based real‑time assistant which captures screen and audio
-for contextual AI responses. The code is JavaScript and uses Electron Forge for
+This repository is a customized version of the [`cheating-daddy`](https://github.com/sohzm/cheating-daddy) project.
+It provides an Electron-based real‑time AI assistant which captures screen and audio
+for contextual responses during sales calls and business conversations. The code is JavaScript and uses Electron Forge for
 packaging.
 
 ## Getting started

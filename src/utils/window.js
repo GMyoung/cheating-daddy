@@ -59,11 +59,11 @@ function createWindow(sendToRenderer, geminiSessionRef) {
         }
     }
 
-    // Center window at the top of the screen
+    // Center window in the middle of the screen
     const primaryDisplay = screen.getPrimaryDisplay();
-    const { width: screenWidth } = primaryDisplay.workAreaSize;
+    const { width: screenWidth, height: screenHeight } = primaryDisplay.workAreaSize;
     const x = Math.floor((screenWidth - windowWidth) / 2);
-    const y = 600;
+    const y = Math.floor((screenHeight - windowHeight) / 2);
     mainWindow.setPosition(x, y);
 
     if (process.platform === 'win32') {
@@ -302,20 +302,22 @@ function setupWindowIpcHandlers(mainWindow, sendToRenderer, geminiSessionRef) {
     ipcMain.on('view-changed', (event, view) => {
         if (!mainWindow.isDestroyed()) {
             const primaryDisplay = screen.getPrimaryDisplay();
-            const { width: screenWidth } = primaryDisplay.workAreaSize;
+            const { width: screenWidth, height: screenHeight } = primaryDisplay.workAreaSize;
 
             if (view === 'assistant') {
                 // Shrink window for live view
                 const liveWidth = 850;
                 const liveHeight = 400;
                 const x = Math.floor((screenWidth - liveWidth) / 2);
-                mainWindow.setPosition(x, 600);
+                const y = Math.floor((screenHeight - liveHeight) / 2);
+                mainWindow.setPosition(x, y);
             } else {
                 // Restore full size
                 const fullWidth = 1100;
                 const fullHeight = 800;
                 const x = Math.floor((screenWidth - fullWidth) / 2);
-                mainWindow.setPosition(x, 600);
+                const y = Math.floor((screenHeight - fullHeight) / 2);
+                mainWindow.setPosition(x, y);
                 mainWindow.setIgnoreMouseEvents(false);
             }
         }

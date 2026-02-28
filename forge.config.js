@@ -7,7 +7,7 @@ module.exports = {
             unpack: '**/{onnxruntime-node,onnxruntime-common,@huggingface/transformers,sharp,@img}/**',
         },
         extraResource: ['./src/assets/SystemAudioDump'],
-        name: 'Cheating Daddy',
+        name: 'SaleCoach Andy Demo',
         icon: 'src/assets/logo',
         // use `security find-identity -v -p codesigning` to find your identity
         // for macos signing
@@ -32,9 +32,9 @@ module.exports = {
         {
             name: '@electron-forge/maker-squirrel',
             config: {
-                name: 'cheating-daddy',
-                productName: 'Cheating Daddy',
-                shortcutName: 'Cheating Daddy',
+                name: 'salecoach-andy-demo',
+                productName: 'SaleCoach Andy Demo',
+                shortcutName: 'SaleCoach Andy Demo',
                 createDesktopShortcut: true,
                 createStartMenuShortcut: true,
             },
@@ -48,10 +48,10 @@ module.exports = {
             platforms: ['linux'],
             config: {
                 options: {
-                    name: 'Cheating Daddy',
-                    productName: 'Cheating Daddy',
-                    genericName: 'AI Assistant',
-                    description: 'AI assistant for interviews and learning',
+                    name: 'SaleCoach Andy Demo',
+                    productName: 'SaleCoach Andy Demo',
+                    genericName: 'AI Sales Assistant',
+                    description: 'SaleCoach Andy Demo - Real-time AI assistant for sales conversations',
                     categories: ['Development', 'Education'],
                     icon: 'src/assets/logo.png'
                 }

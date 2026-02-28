@@ -8,7 +8,7 @@ import { OnboardingView } from '../views/OnboardingView.js';
 import { AICustomizeView } from '../views/AICustomizeView.js';
 import { FeedbackView } from '../views/FeedbackView.js';
 
-export class CheatingDaddyApp extends LitElement {
+export class SalesConversationCoachApp extends LitElement {
     static styles = css`
         * {
             box-sizing: border-box;
@@ -800,7 +800,7 @@ export class CheatingDaddyApp extends LitElement {
         return html`
             <div class="sidebar ${this._isLiveMode() ? 'hidden' : ''}">
                 <div class="sidebar-brand">
-                    <h1>Cheating Daddy</h1>
+                    <h1>Andy Demo</h1>
                 </div>
                 <nav class="sidebar-nav">
                     ${items.map(item => html`
@@ -896,4 +896,4 @@ export class CheatingDaddyApp extends LitElement {
     }
 }
 
-customElements.define('cheating-daddy-app', CheatingDaddyApp);
+customElements.define('sales-conversation-coach-app', SalesConversationCoachApp);

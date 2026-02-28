@@ -783,7 +783,7 @@ function handleShortcut(shortcutKey) {
 }
 
 // Create reference to the main app element
-const cheatingDaddyApp = document.querySelector('cheating-daddy-app');
+const cheatingDaddyApp = document.querySelector('sales-conversation-coach-app') || document.querySelector('cheating-daddy-app');
 
 // ============ THEME SYSTEM ============
 const theme = {
@@ -1007,8 +1007,8 @@ const theme = {
     }
 };
 
-// Consolidated cheatingDaddy object - all functions in one place
-const cheatingDaddy = {
+// Consolidated salesCoach object - all functions in one place
+const salesCoach = {
     // App version
     getVersion: async () => ipcRenderer.invoke('get-app-version'),
 
@@ -1049,7 +1049,8 @@ const cheatingDaddy = {
 };
 
 // Make it globally available
-window.cheatingDaddy = cheatingDaddy;
+window.salesCoach = salesCoach;
+window.cheatingDaddy = salesCoach; // Keep backward compatibility
 
 // Load theme after DOM is ready
 if (document.readyState === 'loading') {
