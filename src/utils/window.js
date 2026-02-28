@@ -37,7 +37,7 @@ function createWindow(sendToRenderer, geminiSessionRef) {
         { useSystemPicker: true }
     );
 
-    mainWindow.setResizable(false);
+    mainWindow.setResizable(true);
     mainWindow.setContentProtection(true);
     mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
 
@@ -63,7 +63,7 @@ function createWindow(sendToRenderer, geminiSessionRef) {
     const primaryDisplay = screen.getPrimaryDisplay();
     const { width: screenWidth } = primaryDisplay.workAreaSize;
     const x = Math.floor((screenWidth - windowWidth) / 2);
-    const y = 0;
+    const y = 600;
     mainWindow.setPosition(x, y);
 
     if (process.platform === 'win32') {
@@ -309,15 +309,13 @@ function setupWindowIpcHandlers(mainWindow, sendToRenderer, geminiSessionRef) {
                 const liveWidth = 850;
                 const liveHeight = 400;
                 const x = Math.floor((screenWidth - liveWidth) / 2);
-                mainWindow.setSize(liveWidth, liveHeight);
-                mainWindow.setPosition(x, 0);
+                mainWindow.setPosition(x, 600);
             } else {
                 // Restore full size
                 const fullWidth = 1100;
                 const fullHeight = 800;
                 const x = Math.floor((screenWidth - fullWidth) / 2);
-                mainWindow.setSize(fullWidth, fullHeight);
-                mainWindow.setPosition(x, 0);
+                mainWindow.setPosition(x, 600);
                 mainWindow.setIgnoreMouseEvents(false);
             }
         }

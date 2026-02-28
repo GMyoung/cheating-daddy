@@ -266,7 +266,7 @@ async function sendToGroq(transcription) {
             body: JSON.stringify({
                 model: modelToUse,
                 messages: [
-                    { role: 'system', content: currentSystemPrompt || 'You are a helpful assistant.' },
+                    { role: 'system', content: currentSystemPrompt || 'You are a helpful assistant. who answers within 3 sentences' },
                     ...groqConversationHistory
                 ],
                 stream: true,
@@ -320,7 +320,7 @@ async function sendToGroq(transcription) {
         const cleanedResponse = stripThinkingTags(fullText);
         const modelKey = modelToUse.split('/').pop();
 
-        const systemPromptChars = (currentSystemPrompt || 'You are a helpful assistant.').length;
+        const systemPromptChars = (currentSystemPrompt || 'You are a helpful assistant. who answers within 3 sentences.').length;
         const historyChars = groqConversationHistory.reduce((sum, msg) => sum + (msg.content || '').length, 0);
         const inputChars = systemPromptChars + historyChars;
         const outputChars = cleanedResponse.length;
@@ -374,17 +374,7 @@ async function sendToGemma(transcription) {
             parts: [{ text: msg.content }]
         }));
 
-        const baseSystemPrompt = currentSystemPrompt || 'You are a helpful assistant.';
-
-        const brevityRule = `
-            MANDATORY OUTPUT FORMAT:
-            - If the question is multiple-choice, output ONLY the selected option letter(s) or number(s) first (e.g., "B" or "A, C" or "2, 4").
-            - Immediately after, add a very short explanation (<= 1 sentence per option).
-            - Total output: at most 3 sentences OR at most 3 one-line bullets.
-            - No filler, no preamble.
-            `.trim();
-
-        const systemPrompt = `${baseSystemPrompt}\n\n${brevityRule}`;
+        const systemPrompt = currentSystemPrompt || 'You are a helpful assistant.who answers within 3 sentences.';
         const messagesWithSystem = [
             { role: 'user', parts: [{ text: systemPrompt }] },
             { role: 'model', parts: [{ text: 'Understood. I will follow these instructions.' }] },
@@ -408,7 +398,7 @@ async function sendToGemma(transcription) {
             }
         }
 
-        const systemPromptChars = (currentSystemPrompt || 'You are a helpful assistant.').length;
+        const systemPromptChars = (currentSystemPrompt || 'You are a helpful assistant. who answers within 3 sentences.').length;
         const historyChars = trimmedHistory.reduce((sum, msg) => sum + (msg.content || '').length, 0);
         const inputChars = systemPromptChars + historyChars;
         const outputChars = fullText.length;
@@ -811,7 +801,51 @@ async function sendImageToGeminiHttp(base64Data, prompt) {
         console.log(`Sending image to ${model} (streaming)...`);
         const response = await ai.models.generateContentStream({
             model: model,
+
+            systemInstruction: {
+                parts: [{
+                    text: `
+
+STRICT OUTPUT RULES:
+
+- Answer FIRST. No introduction.
+- Maximum output: 1 line for MCQ, or 1–2 short sentences.
+- Never explain more than 2 sentences.
+- Never say "Here are the answers", "Analysis", or similar.
+- Never restate the question.
+
+FORMAT:
+
+MCQ → output only letter:
+Example:
+A
+
+Numeric → output only number:
+Example:
+8
+
+Concept → one sentence maximum.
+
+Code → code only.
+
+If multiple questions, output each answer on its own line:
+
+Example:
+1) B
+2) A
+3) Decreases
+`
+                }]
+            },
+
             contents: contents,
+
+            generationConfig: {
+                temperature: 0,
+                maxOutputTokens: 80,
+                topP: 0.1,
+                topK: 1
+            }
         });
 
         // Increment count after successful call
